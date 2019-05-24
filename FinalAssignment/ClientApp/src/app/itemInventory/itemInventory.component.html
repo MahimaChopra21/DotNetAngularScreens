@@ -1,0 +1,55 @@
+<h2>Item Inventory</h2>
+<p *ngIf="!Items"><em>Loading...</em></p>
+<form id="ItemInventoryForm" class="form-horizontal" (ngSubmit)="Save()" #heroForm="ngForm">
+  <label>Item:</label>
+  <select style="margin-left:40px;" required [(ngModel)]="ItemInventoryModel.ItemID" name="itemID" #itemID="ngModel">
+    <option *ngFor="let item of Items" value="{{item.itemID}}">{{item.itemName}}</option>
+  </select>
+  <div [hidden]="itemID.valid || itemID.pristine"
+       class="alert alert-danger">
+    Name is required
+  </div>
+<br /><br />
+<label>Quantity:</label>
+  <input required [(ngModel)]="ItemInventoryModel.ItemQuantity" name="itemQuantity" type="text" maxlength="5" pattern="\d*"  style="width:65px;margin-left:10px;" #itemQuantity="ngModel" />
+  <div [hidden]="itemQuantity.valid || itemQuantity.pristine"
+       class="alert alert-danger">
+    Quantity is required
+  </div>
+  <br /><br />
+  <label>Rate:</label>
+  <input [(ngModel)]="ItemInventoryModel.ItemRate" required name="itemRate" type="text" pattern="\d*.\d*" maxlength="4"  style="width:65px;margin-left:37px;" #itemRate="ngModel" />
+  <div [hidden]="itemRate.valid || itemRate.pristine"
+       class="alert alert-danger">
+    Rate is required
+  </div>
+  <input type="submit" class="btn btn-primary" value="Save" [disabled]="!heroForm.form.valid"/>
+</form>
+
+<input [(ngModel)]="searchText" placeholder="Search.." class="advancedSearchTextbox">
+
+<table class='table table-bordered' *ngIf="dtItems.length > 0">
+  <thead>
+    <tr>
+      <th>Item Inventory ID</th>
+      <th>Quantity</th>
+      <th>Rate</th>
+      <th>Item Name</th>
+      <th>Current Date</th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <tr (click)="SendData(obj)" style="cursor: pointer;" *ngFor="let obj of dtItems| filter: {itemInventoryID: searchText, itemQuantity:searchText,  itemRate: searchText,itemName:searchText}">
+      <td>{{ obj.itemInventoryID }}</td>
+      <td>{{ obj.itemQuantity }}</td>
+      <td>{{ obj.itemRate }}</td>
+      <td>{{ obj.itemName }}</td>
+      <td>{{ obj.createDate| date:'dd/MM/yyyy'}}</td>
+    </tr>
+  </tbody>
+</table>
+
+
+
+

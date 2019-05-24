@@ -1,0 +1,38 @@
+<h1>Customer Details</h1>
+
+
+<form id="CustomerForm" class="form" (ngSubmit)="SaveRecord()" #heroForm="ngForm">
+
+  <input [(ngModel)]="customerDataModel.customerName" required type="text" id="customername" name="coustomerName" placeholder="Name" #customerName="ngModel" />
+  <div [hidden]="customerName.valid || customerName.pristine"
+       class="alert alert-danger">
+    Name is required
+  </div>
+  <input [(ngModel)]="customerDataModel.customerEmail" required type="email" id="customername" name="customerEmail" placeholder="Email" #customerEmail="ngModel" />
+  <div [hidden]="customerEmail.valid || customerEmail.pristine"
+       class="alert alert-danger">
+    Email is required
+  </div>
+
+  <button type="submit" class="btn btn-primary" [disabled]="!heroForm.form.valid">Save</button>
+
+</form>
+<input [(ngModel)]="searchText" placeholder="Search.." class="advancedSearchTextbox">
+
+<table class='table table-bordered'>
+  <thead>
+    <tr>
+      <th>Customer ID</th>
+      <th>Customer Name </th>
+      <th>Customer Email </th>
+
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let obj of customers| filter: {customerID: searchText, customerName:searchText,  customerEmail: searchText}">
+      <td>{{ obj.customerID }}</td>
+      <td (click)="SendData(obj)" style="cursor: pointer;">{{ obj.customerName }} </td>
+      <td>{{ obj.customerEmail }}</td>
+   </tr>
+  </tbody>
+</table>

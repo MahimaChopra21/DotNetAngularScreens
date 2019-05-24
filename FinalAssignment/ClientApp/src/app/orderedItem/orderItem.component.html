@@ -1,0 +1,55 @@
+<h2>Order Item</h2>
+
+<form id="OrderItemForm" (ngSubmit)="Add()" #heroForm="ngForm">
+  <label>Customer Name:</label>
+  <select [(ngModel)]="ItemOrder.customerID" required name="customerID" #customerID="ngModel">
+    <option *ngFor="let customer of customers" value="{{customer.customerID}}">{{customer.customerName}}</option>
+  </select>
+  <div [hidden]="customerID.valid || customerID.pristine"
+       class="alert alert-danger">
+    Name is required">
+  </div>
+
+  <label>Item:</label>
+  <select [(ngModel)]="ItemOrder.itemID" name="ItemID" required (ngModelChange)="getPrice(ItemOrder.itemID)" #ItemID="ngModel">
+    <option *ngFor="let item of items" value="{{item.itemID}}">{{item.itemName}}</option>
+  </select>
+  <div [hidden]="ItemID.valid || ItemID.pristine"
+       class="alert alert-danger">
+    Item Name is required">
+  </div>
+
+  <br /><br />
+  <label> Quantity:</label>
+  <input [(ngModel)]="ItemOrder.ItemOrderQuantity" type="text" pattern="[0-9]*" maxlength="5" required id="itemQuantity" name="ItemOrderQuantity" placeholder="Add Quantity" #ItemOrderQuantity="ngModel"
+         (ngModelChange)="getPrice(ItemOrder.ItemOrderQuantity)" />
+  <div [hidden]="ItemOrderQuantity.valid || ItemOrderQuantity.pristine"
+       class="alert alert-danger">
+    Quantity is required
+  </div>
+  <label> Total Amount:</label>
+  <input disabled [(ngModel)]="ItemOrder.TotalAmount" name="TotalAmount" type="text" style="width:90px;margin-left:30px;" />
+  <br /><br />
+  <button type="submit" class=" btn btn-primary" [disabled]="!heroForm.valid"> ADD </button>
+  {{heroForm.valid}}
+</form>
+<table class='table' *ngIf="arr.length > 0">
+  <thead>
+    <tr>
+      <th>Customer</th>
+      <th>Item </th>
+      <th>Quantity</th>
+      <th>Amount</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let obj of arr; let RowIndex= index" >
+      <td>{{ obj.customerID }}</td>
+      <td>{{ obj.itemID }}</td>
+      <td>{{ obj.ItemOrderQuantity }}</td>
+      <td>{{ obj.TotalAmount }}</td>
+      <td><button class="btn-danger" (click)="Delete(RowIndex)">Delete</button></td>
+    </tr>
+  </tbody>
+</table>
+<input (click)="Save()" required type="button" class=" btn btn-primary" value="Save" />

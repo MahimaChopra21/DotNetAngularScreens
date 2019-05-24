@@ -1,0 +1,38 @@
+<h2>Item Master</h2>
+<p *ngIf="!categories"><em>Loading...</em></p>
+<form style="margin-top:40px;" id="ItemForm" (ngSubmit)="Save()" #heroForm="ngForm">
+  <label>Category:</label>
+  <select style="margin-left:40px;" required [(ngModel)]="ItemMasterModel.CategoryID" name="categoryID" #CategoryID="ngModel">
+    <option *ngFor="let category of categories" value="{{category.categoryID}}">{{category.categoryName}}</option>
+  </select>
+  <div [hidden]="CategoryID.valid || CategoryID.pristine"
+       class="alert alert-danger">
+    Name is required
+  </div>
+  <br /><br />
+  <label>Item Name:</label>
+  <input [(ngModel)]="ItemMasterModel.ItemName" required name="itemName" type="text" style="width:90px;margin-left:30px;" #itemName="ngModel"/>
+  <div [hidden]="itemName.valid || itemName.pristine"
+       class="alert alert-danger">
+   Item Name is required
+  </div>
+  <br /><br />
+  <input type="submit" class="btn btn-primary" [disabled]="!heroForm.form.valid" style="margin-left:110px;width:55px;" value="Save" />
+
+</form>
+<table class='table table-striped'>
+  <thead>
+    <tr>
+      <th>ItemID</th>
+      <th>Item Name</th>
+      <th>Category Name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let obj of items">
+      <td>{{ obj.itemID }}</td>
+      <td>{{ obj.itemName }}</td>
+      <td>{{ obj.categoryName }}</td>
+    </tr>
+  </tbody>
+</table>
